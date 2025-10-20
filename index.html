@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Asadullah — Hybrid Portfolio (Oceanic Minimalist)</title>
+  <meta name="description" content="Asadullah — Software Engineering (1st Year). Creative & focused portfolio showcasing projects, skills, and a data-driven mindset." />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <style>
+    :root{
+      /* OCEANIC MINIMALIST LIGHT PALETTE */
+      --bg-light: #f0f4f8; /* Soft Gray-Blue Background */
+      --text-main: #333d47; /* Deep Navy Blue */
+      --text-muted: #6b778d; /* Medium Gray */
+      --accent-primary: #007acc; /* Professional Deep Ocean Blue */
+      --accent-secondary: #ff9900; /* Warm Orange for contrast */
+      --card: #ffffff; /* Pure White Card Background */
+      --radius: 8px; 
+      --max: 1150px;
+      --font-main: 'Roboto', sans-serif; 
+      color-scheme: light; /* Explicitly light mode */
+    }
+
+    /* Clear and simple card shadow */
+    @keyframes float {
+        0% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+        50% { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); }
+        100% { transform: translateY(0); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); }
+    }
+    
+    /* Removed glitch keyframes */
+
+    *{box-sizing:border-box}
+    html,body{
+        height:100%;margin:0;
+        font-family: var(--font-main);
+        color:var(--text-main);
+        background-color:var(--bg-light);
+        -webkit-font-smoothing:antialiased;
+    }
+    a{color:var(--accent-primary);text-decoration:none; transition: color 0.2s;}
+    a:hover{color:var(--accent-secondary);}
+    .container{max-width:var(--max);margin:36px auto;padding:28px}
+
+    /* --- HEADER (Desktop) --- */
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:14px}
+    
+    /* Minimalist Profile Image */
+    .profile-img-container {
+        width: 60px; 
+        height: 60px; 
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid var(--accent-primary);
+        box-shadow: 0 0 0 4px rgba(0, 122, 204, 0.1); 
+    }
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(0.5); /* Slightly muted image */
+    }
+    
+    .title h1{
+        margin:0;font-size:24px;
+        color:var(--text-main);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+    }
+    .title p{margin:2px 0 0;font-size:14px;color:var(--text-muted); letter-spacing: 0.5px;}
+
+    nav{display:flex;gap:4px}
+    .nav-btn{
+        padding:8px 14px;border-radius:var(--radius);
+        background:transparent;
+        border:none;
+        color:var(--text-main);cursor:pointer;font-weight:500;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
+    .nav-btn:hover{
+        background:rgba(0, 122, 204, 0.1);
+        color:var(--accent-primary);
+    }
+
+    /* --- HERO (Desktop) --- */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;margin-top:40px;align-items:center;}
+    /* Existing basic hero responsiveness */
+    @media(max-width:980px){.hero{grid-template-columns:1fr;gap:20px;}.hero-right{order:2}}
+
+    .card{
+        background:var(--card);
+        border-radius:var(--radius);padding:24px;
+        border:1px solid rgba(0,0,0,0.05);
+        box-shadow:0 6px 15px rgba(0,0,0,0.08); /* Soft shadow */
+    }
+    .hero-left h2{
+        color:var(--accent-primary);font-size:32px;margin:0 0 10px;
+        font-weight: 700;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .lead{color:var(--text-muted);font-size:17px;line-height:1.6;font-weight:400; letter-spacing: 0.5px;}
+
+    .cta{margin-top:25px;display:flex;gap:16px;flex-wrap:wrap}
+    .btn{padding:12px 20px;border-radius:var(--radius);font-weight:700;border:none;cursor:pointer;transition: all 0.3s ease; text-transform: uppercase;}
+    .btn-primary{
+        background:var(--accent-primary);
+        color:var(--card);
+        box-shadow:0 4px 10px rgba(0, 122, 204, 0.4);
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0, 122, 204, 0.6);}
+    .btn-ghost{
+        background:transparent;
+        border:2px solid var(--accent-primary);
+        color:var(--accent-primary);
+    }
+    .btn-ghost:hover{
+        background:rgba(0, 122, 204, 0.1);
+        box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        transform:translateY(-1px);
+    }
+
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+    .tag{
+        padding:4px 8px;border-radius:4px;
+        background:#e5f3ff; /* Light blue tag background */
+        border:1px solid var(--accent-primary);
+        font-weight:500;color:var(--accent-primary);font-size:12px;
+    }
+
+    .hero-right{display:flex;flex-direction:column;gap:18px;align-items:stretch}
+    
+    /* Clean Code Block Styling (Laptop Mockup) */
+    .card-visual{height:220px;border-radius:var(--radius);position:relative;overflow:hidden;
+        padding: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        animation: float 4s ease-in-out infinite; 
+    }
+    .device{
+      width: 100%;
+      height: 100%;
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #272822; /* Monokai/Dark Code Editor background */
+      border: 1px solid rgba(255, 255, 255, 0.1); 
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    .device pre {
+      margin:0;font-family:monospace;font-size:13px;line-height:1.4;
+      color: #f8f8f2;
+      text-shadow: none; /* No glitch effect */
+      font-weight: 400;
+    }
+    .device .k{color: #f92672;} /* Keyword: pink */
+    .device .f{color: #66d9ef;} /* Function: cyan */
+    .device .v{color: #a6e22e;} /* Variable: green */
+    
+    /* --- MAIN (Desktop) --- */
+    main{display:grid;grid-template-columns:2fr 1fr;gap:30px;margin-top:30px}
+    /* Existing basic main content responsiveness */
+    @media(max-width:980px){main{grid-template-columns:1fr}}
+
+    section h3{
+        color:var(--accent-primary);margin:0 0 10px;font-size:20px;
+        border-bottom: 2px solid var(--accent-primary); 
+        padding-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .profile p{color:var(--text-muted)}
+
+    .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .skill-item{
+        background:var(--bg-light);
+        padding:16px;border-radius:var(--radius);
+        border:1px solid rgba(0,0,0,0.08);
+    }
+    .skill-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-weight:700;color:var(--text-main); text-transform: uppercase;font-size: 15px;}
+    
+    /* Clean Skill Bar */
+    .bar{
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    
+    .bar > i{
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--accent-primary);
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.2,1,0.2,1);
+      box-shadow: none;
+      animation: none; 
+      border: none;
+    }
+
+    .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .proj{
+        background:var(--card);
+        padding:20px;border-radius:var(--radius);
+        border:1px solid rgba(0, 122, 204, 0.1);
+        transform:translateY(0);
+        transition:transform 0.3s ease, box-shadow 0.3s, background 0.3s;
+    }
+    .proj:hover{
+        transform:translateY(-4px);
+        background:#f5faff; /* Very light blue hover */
+        box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    }
+    .proj h4 {color: var(--text-main); margin: 8px 0; font-family: 'Montserrat', sans-serif;}
+    .proj .meta{font-size:13px;color:var(--accent-secondary);margin-bottom:6px; letter-spacing: 0.5px; font-weight: 500;}
+    .proj p {font-size: 14px; color: var(--text-muted);}
+
+    .contact .socials{display:flex;flex-direction:column;gap:12px}
+    .chip{
+        display:inline-flex;align-items:center;gap:12px;
+        padding:10px 14px;border-radius:var(--radius);
+        background:var(--bg-light);
+        border:1px solid rgba(0, 122, 204, 0.3);
+        font-weight:600;color:var(--text-main);font-size:15px;
+        transition: all 0.2s ease;
+        text-shadow: none;
+    }
+    .chip:hover {background: #e5f3ff; border-color: var(--accent-primary); color: var(--accent-primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+
+    footer{margin-top:50px;text-align:center;color:var(--text-muted);font-size:14px; letter-spacing: 1px;}
+
+    .typing{font-weight:700;color:var(--accent-secondary); text-shadow: none;}
+    
+    /* Removed particle background and grid */
+    #particle-canvas{ display: none; } 
+
+    /* Existing grid responsiveness (below 600px) */
+    @media(max-width:600px){
+        .skills-grid{grid-template-columns:1fr}
+        .projects-grid{grid-template-columns:1fr}
+    }
+    
+    /* ======================================= */
+    /* === ADDED MOBILE RESPONSIVENESS RULES === */
+    /* ======================================= */
+    
+    /* Global Container/Padding Adjustment (Tablet/Large Mobile) */
+    @media(max-width: 768px) {
+        .container {
+            padding: 15px; /* Reduce container padding */
+            margin: 20px auto; /* Reduce top/bottom margin */
+        }
+        .card {
+            padding: 20px; /* Slight reduction in card padding */
+        }
+        .hero-left h2 {
+            font-size: 28px; /* Smaller hero title */
+        }
+        .lead {
+            font-size: 16px; /* Smaller lead text */
+        }
+        .card-visual {
+            height: 180px; /* Smaller code visual height */
+        }
+    }
+    
+    /* Header and Navigation Adjustments (Mobile) */
+    @media(max-width: 650px) {
+        header {
+            flex-direction: column; /* Stack the brand and nav */
+            align-items: flex-start; /* Align elements to the left */
+            gap: 10px;
+        }
+        nav {
+            justify-content: space-between; /* Spread buttons out */
+            width: 100%;
+        }
+        .nav-btn {
+            padding: 8px 10px; /* Reduce button padding */
+            font-size: 12px; /* Smaller font */
+            flex-grow: 1; /* Make them fill the space */
+            text-align: center;
+        }
+        .profile-img-container {
+            width: 50px; /* Smaller profile picture */
+            height: 50px;
+        }
+        .title h1 {
+            font-size: 20px;
+        }
+    }
+
+    /* CTA and Contact Button Stacking (Small Mobile) */
+    @media(max-width: 450px) {
+        /* Hero CTA buttons stack vertically */
+        .cta {
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn {
+            width: 100%; /* Full width buttons */
+        }
+        
+        /* Contact/Sidebar buttons stack vertically */
+        .contact .socials > div:last-child { /* Targets the div containing the two buttons */
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .chip {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas"></canvas>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="profile-img-container">
+            <img src="WhatsApp Image 2025-10-19 at 4.17.50 PM.jpeg" alt="Asadullah" class="profile-img">
+        </div>
+        <div class="title">
+          <h1>ASADULLAH</h1>
+          <p>1ST YEAR SOFTWARE ENGINEER</p>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-btn" onclick="scrollToSection('about')">About</button>
+        <button class="nav-btn" onclick="scrollToSection('skills')">Skills</button>
+        <button class="nav-btn" onclick="scrollToSection('projects')">Projects</button>
+        <button class="nav-btn" onclick="scrollToSection('contact')">Contact</button>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <div class="card hero-left">
+        <h2>HELLO — <span class="typing" id="typed"></span></h2>
+        <p class="lead">First-year Software Engineering student focused on **hard skills** and measurable progress. I build small, useful tools, practice algorithms daily, and approach problems with the same disciplined logic used in trading. **Logic is my primary tool.**</p>
+
+        <div class="tags" aria-hidden="true">
+          <div class="tag">PYTHON</div>
+          <div class="tag">C LANGUAGE</div>
+          <div class="tag">DSA</div>
+          <div class="tag">RISK LOGIC</div>
+          <div class="tag">WEB FOUNDATION</div>
+        </div>
+
+        <div class="cta">
+          <button class="btn btn-primary" onclick="downloadResume()">DOWNLOAD RESUME</button>
+          <a class="btn btn-ghost" href="https://github.com/Assadullah287" target="_blank" rel="noopener noreferrer">GITHUB PROFILE</a>
+        </div>
+
+        <div style="margin-top:25px;font-size:14px;color:var(--text-muted);">
+          **PHILOSOPHY:** My background in trading drives my focus on **reliable systems**, disciplined logic, and **data-driven validation** in all code. I aim for efficient and verifiable solutions.
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="card-visual">
+          <div class="device" aria-hidden="true">
+            <pre>
+<span class="k"># PYTHON UTILITY: EMA</span>
+<span class="k">def</span> <span class="f">ema</span>(<span class="v">values</span>, <span class="v">n</span>):
+  <span class="v">k</span> = 2/(<span class="v">n</span>+1)
+  <span class="v">ema</span> = <span class="v">values</span>[0]
+  <span class="k">for</span> <span class="v">v</span> <span class="k">in</span> <span class="v">values</span>[1:]:
+    <span class="v">ema</span> = <span class="v">v</span>*<span class="v">k</span> + <span class="v">ema</span>*(1-<span class="v">k</span>)
+  <span class="k">return</span> <span class="v">ema</span>
+            </pre>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:14px;color:var(--text-muted)">LOCATION</div>
+              <div style="font-weight:700;color:var(--text-main);margin-top:4px">PAKISTAN 🇵🇰</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:14px;color:var(--text-muted)">SECTOR</div>
+              <div style="font-weight:700;color:var(--text-main);margin-top:4px">SOFTWARE ENGINEERING</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div>
+        <section id="about" class="card profile">
+          <h3>ABOUT ME // CORE MODULE</h3>
+          <p>I study Software Engineering to build systems that are robust and testable. My philosophy is **learn by doing**. I enforce strict personal discipline: daily algorithm practice, building small Python utilities, and applying the risk control principles I mastered in crypto trading. I value clear, efficient code and measurable, repeatable progress above all else.</p>
+
+          <div style="margin-top:20px">
+            <h4 style="margin:10px 0 6px;color:var(--accent-primary); text-transform: uppercase; font-size: 16px;">KEY STRENGTHS</h4>
+            <ul style="color:var(--text-muted);line-height:1.7;list-style: none; padding: 0;">
+              <li><strong style="color:var(--text-main)">> ANALYTIC DISCIPLINE:</strong> Applied risk-first logic and meticulous data analysis from trading to software architecture.</li>
+              <li><strong style="color:var(--text-main)">> PRACTICAL CODEBASE:</strong> Proficient in foundational **Python** & **C**, focused on building functional utilities.</li>
+              <li><strong style="color:var(--text-main)">> ADAPTABILITY:</strong> Actively deepening **JavaScript**, **Data Structures**, and preparing for ML frameworks.</li>
+            </ul>
+          </div>
+        </section>
+
+        ---
+
+        <section id="skills" class="card">
+          <h3>SKILL MATRIX // TECHNICAL</h3>
+          <div class="skills-grid">
+            <div class="skill-item">
+              <div class="skill-title"><span>PYTHON</span><span><span class="skill-count" data-target="70">0</span>%</span></div>
+              <div class="bar"><i data-width="70%"></i></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-title"><span>C PROGRAMMING</span><span><span class="skill-count" data-target="45">0</span>%</span></div>
+              <div class="bar"><i data-width="45%"></i></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-title"><span>HTML & CSS</span><span><span class="skill-count" data-target="55">0</span>%</span></div>
+              <div class="bar"><i data-width="55%"></i></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-title"><span>JAVASCRIPT</span><span><span class="skill-count" data-target="30">0</span>%</span></div>
+              <div class="bar"><i data-width="30%"></i></div>
+            </div>
+          </div>
+        </section>
+
+        ---
+
+        <section id="projects" class="card">
+          <h3>PROJECTS // CODEBASE</h3>
+          <div class="projects-grid">
+            
+            <div class="proj">
+              <a href="#PYTHON-FILE-SORTER-PROJECT-LINK" target="_blank" rel="noopener noreferrer">
+                <div class="meta">PYTHON / UTILITY</div>
+                <h4>CLI FILE ORGANIZER 📂</h4>
+                <p>Command Line utility for automating file sorting based on extension, demonstrating robust `os` module handling and automation logic.</p>
+                <div class="tags">
+                  <div class="tag">PYTHON</div><div class="tag">CLI</div><div class="tag">AUTOMATION</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="proj">
+              <a href="#C-MEMORY-SIMULATOR-PROJECT-LINK" target="_blank" rel="noopener noreferrer">
+                <div class="meta">C / SYSTEM</div>
+                <h4>BASIC MEMORY ALLOCATOR 🧠</h4>
+                <p>C program simulating `malloc`/`free` to manage memory chunks. Focus on low-level pointer arithmetic and fundamental system concepts.</p>
+                <div class="tags">
+                  <div class="tag">C</div><div class="tag">POINTERS</div><div class="tag">MEMORY</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="proj">
+              <a href="#TRADING-DISCORD-BOT-PROJECT-LINK" target="_blank" rel="noopener noreferrer">
+                <div class="meta">PYTHON / API</div>
+                <h4>DISCORD SIGNAL BOT 🤖</h4>
+                <p>A Python bot that monitors exchange APIs for trade signals (e.g., EMA crosses) and broadcasts them instantly via Discord webhook.</p>
+                <div class="tags">
+                  <div class="tag">PYTHON</div><div class="tag">TRADING LOGIC</div><div class="tag">API</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="proj">
+              <a href="#PORTFOLIO-GITHUB-REPO-LINK" target="_blank" rel="noopener noreferrer">
+                <div class="meta">WEB / DESIGN</div>
+                <h4>OCEANIC PORTFOLIO 🌐</h4>
+                <p>Single-page site built with vanilla HTML/CSS/JS. Optimized for speed and designed with a clean, professional, light-mode theme.</p>
+                <div class="tags"><div class="tag">MINIMALIST</div><div class="tag">VANILLA JS</div></div>
+              </a>
+            </div>
+            
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <div class="card contact" id="contact">
+          <h3>CONTACT // CHANNELS</h3>
+          <div class="socials">
+            <div class="chip">📧 <strong id="email">asadllah.official.287@gmail.com</strong></div>
+            <a class="chip" href="https://github.com/Assadullah287" target="_blank" rel="noopener noreferrer">🐙 GITHUB ACCESS</a>
+            <a class="chip" href="https://www.linkedin.com/in/assad-ullah-80bb91284" target="_blank" rel="noopener noreferrer">💼 LINKEDIN PROFILE</a>
+
+            <div style="margin-top:15px;display:flex;gap:8px">
+              <button class="btn btn-primary" onclick="downloadResume()">PULL RESUME</button>
+              <button class="btn btn-ghost" onclick="copyEmail()">COPY EMAIL</button>
+            </div>
+          </div>
+        </div>
+
+        ---
+
+        <div class="card">
+          <h3>MISSION // OBJECTIVES</h3>
+          <p class="muted-small" style="font-size:14px; color:var(--text-muted);">My mission is system mastery. Current objectives are:</p>
+          <ul style="margin-top:10px;color:var(--text-main);list-style:none;padding:0;">
+            <li style="margin-bottom:8px;">> COMPLETE 3 production-like web apps (API, Auth, UI).</li>
+            <li style="margin-bottom:8px;">> ACHIEVE DSA mastery (100+ LeetCode/HackerRank problems).</li>
+            <li style="margin-bottom:8px;">> INITIATE ML fundamentals and deploy first model.</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      <div style="margin-top:10px;">©️ <span id="year"></span> ASADULLAH — CODE BASE v2.0</div>
+    </footer>
+  </div>
+
+  <script>
+    // General Utilities and Functionality
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    function copyEmail(){
+      const em = document.getElementById('email').textContent;
+      navigator.clipboard?.writeText(em).then(()=> alert('Email copied: '+em))
+        .catch(()=> alert('Please copy manually: '+em));
+    }
+
+    // PDF Resume Generator (Functional - UPDATED for Clean/Light Colors)
+    function downloadResume(){
+      if (typeof window.jspdf === 'undefined' || typeof window.jspdf.jsPDF !== 'function') {
+          alert('Error: jsPDF library is missing. Please check the script tag.');
+          return;
+      }
+      
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 10;
+      const margin = 10;
+      const width = doc.internal.pageSize.getWidth() - (2 * margin);
+      const lineHeight = 5;
+      const sectionSpacing = 5;
+      
+      // Define Clean/Oceanic colors for PDF: 
+      const COLOR_HEADER = '#007ACC'; // Deep Ocean Blue (for section titles)
+      const COLOR_SUB_HEADER = '#333D47'; // Deep Navy Text
+      const COLOR_TEXT = '#444444'; // Dark Gray (for body text)
+      const COLOR_MUTED = '#888888'; // Light Gray
+
+      const addText = (text, size, style, color = COLOR_TEXT) => {
+        doc.setFontSize(size);
+        doc.setFont(doc.getFont().fontName, style);
+        doc.setTextColor(color);
+        doc.text(text, margin, y);
+        y += lineHeight * (size / 10);
+      };
+      
+      // --- HEADER ---
+      addText('ASADULLAH', 20, 'bold', COLOR_SUB_HEADER);
+      addText('BSc Software Engineering — 1st Year | Pakistan', 10, 'normal', COLOR_MUTED);
+      
+      y += 2;
+      doc.setDrawColor(COLOR_HEADER); // Blue line
+      doc.line(margin, y, margin + width, y);
+      y += 2;
+      
+      addText(`Email: asadllah.official.287@gmail.com  |  GitHub: Assadullah287  |  LinkedIn: Assad Ullah`, 9, 'normal', COLOR_HEADER);
+      y += sectionSpacing;
+      
+      // --- SUMMARY ---
+      addText('SUMMARY', 14, 'bold', COLOR_HEADER); doc.setLineWidth(0.5); doc.line(margin, y, margin + width * 0.2, y); y += 4;
+      doc.setFontSize(10); doc.setFont(doc.getFont().fontName, 'normal');
+      const summaryText = "First-year Software Engineering student focused on building reliable, testable systems. Experienced in Python, C, and foundational web development. Highly disciplined, analytical, and risk-aware from self-directed crypto trading. Committed to measurable progress and shipping practical solutions.";
+      const splitSummary = doc.splitTextToSize(summaryText, width);
+      doc.text(splitSummary, margin, y);
+      y += (splitSummary.length * lineHeight * 0.7) + sectionSpacing;
+      
+      // --- TECHNICAL SKILLS ---
+      addText('TECHNICAL SKILLS', 14, 'bold', COLOR_HEADER); doc.line(margin, y, margin + width * 0.3, y); y += 4;
+      doc.setFontSize(10); doc.setFont(doc.getFont().fontName, 'normal');
+      const skills = ["Programming: Python (70%), C (45%), JavaScript (30%)", "Web Fundamentals: HTML5, CSS3, Vanilla JS, Responsive Design", "Tools & Concepts: CLI, Algorithms, Data Structures (in progress), Git/GitHub", "Soft Skills: Analytical Thinking, Risk Management, Self-Learning, Problem-Solving"];
+      skills.forEach(skill => { doc.text(`• ${skill}`, margin, y); y += lineHeight; }); y += sectionSpacing;
+
+      // --- SELECTED PROJECTS ---
+      addText('SELECTED PROJECTS', 14, 'bold', COLOR_HEADER); doc.line(margin, y, margin + width * 0.3, y); y += 4;
+      const projects = [
+        { title: "Discord Signal Alert Bot (Python)", desc: "A script using Discord webhooks to post trade signals when specific, pre-defined technical scenarios are met on a crypto exchange API. Focuses on automation and logic.", tags: "Python, API, Automation" },
+        { title: "Memory Management Simulator (C)", desc: "A C program that simulates basic memory allocation and deallocation using custom `malloc/free` implementations to understand pointer arithmetic and low-level memory control.", tags: "C, Pointers, Memory" },
+        { title: "CLI File Organizer Tool (Python)", desc: "A Command Line Interface utility to sort files in a directory based on their extension (e.g., PDFs to 'Documents', JPEGs to 'Images'). Focus on basic file handling and OS module integration.", tags: "Python, CLI, OS Module" }
+      ];
+      projects.forEach(proj => {
+        addText(proj.title, 10, 'bold', COLOR_SUB_HEADER); // Deep Navy for project titles
+        doc.setFontSize(9); doc.setFont(doc.getFont().fontName, 'normal');
+        doc.text(proj.desc, margin, y); y += lineHeight * 0.8; 
+        doc.text(`Tags: ${proj.tags}`, margin, y); y += lineHeight * 1.4; 
+      });
+
+      // --- EDUCATION & GOALS ---
+      addText('EDUCATION & GOALS', 14, 'bold', COLOR_HEADER); doc.line(margin, y, margin + width * 0.35, y); y += 4;
+      addText('BSc Software Engineering (1st Year)', 10, 'bold', COLOR_SUB_HEADER);
+      addText('Focused on practical application, DSA mastery, and eventual specialization in AI/Backend systems.', 9, 'normal', COLOR_MUTED); y += lineHeight * 0.5;
+      addText('Roadmap Highlights:', 10, 'bold', COLOR_HEADER); // Deep Blue for goal title
+      doc.setFontSize(9); doc.setFont(doc.getFont().fontName, 'normal');
+      const goals = ["Complete 3 small full-stack web apps (auth, API, UI).", "Master data structures & algorithms (100+ problems solved).", "Start ML fundamentals and deploy a tiny model by year-end."];
+      goals.forEach(goal => { doc.text(`- ${goal}`, margin, y); y += lineHeight * 0.8; });
+
+      doc.save('Asadullah_Resume_Oceanic.pdf');
+    }
+
+    // Skill Bar Animation (uses IntersectionObserver)
+    function animateSkills(){
+      document.querySelectorAll('.bar > i').forEach(i => {
+        i.style.width = i.getAttribute('data-width') || '0%';
+      });
+      document.querySelectorAll('.skill-count').forEach(el => {
+        const target = +el.getAttribute('data-target');
+        let cur = 0;
+        const step = Math.max(1, Math.floor(target/30));
+        const t = setInterval(()=>{
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(t); }
+          el.textContent = cur;
+        }, 18);
+      });
+    }
+
+    const skillsObserver = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ animateSkills(); skillsObserver.disconnect(); }
+      });
+    }, {threshold:0.25});
+    skillsObserver.observe(document.getElementById('skills'));
+
+    // Typing Effect 
+    (function typing(){
+      const el = document.getElementById('typed');
+      const phrases = ['I BUILD RELIABLE SYSTEMS.', 'I CODE FOR UTILITY.', 'I AM A PROBLEM-SOLVER.'];
+      let p=0, i=0, forward=true;
+      function tick(){
+        const str = phrases[p];
+        if(forward){
+          i++;
+          el.textContent = str.slice(0,i);
+          if(i===str.length){ forward=false; setTimeout(tick,1200); return; }
+        } else {
+          i--;
+          el.textContent = str.slice(0,i);
+          if(i===0){ forward=true; p=(p+1)%phrases.length; }
+        }
+        setTimeout(tick, 50);
+      }
+      tick();
+    })();
+
+    // subtle scroll reveal
+    document.querySelectorAll('.card, .hero-right .card-visual, .hero-right .card').forEach((c, idx)=>{
+      c.style.opacity = 0;
+      c.style.transform = 'translateY(15px)';
+      setTimeout(()=>{ c.style.transition = 'opacity 0.6s ease, transform 0.6s ease'; c.style.opacity = 1; c.style.transform = 'translateY(0)'; }, 180 + idx*60);
+    });
+  </script>
+</body>
+</html>
